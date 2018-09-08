@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -34,14 +35,19 @@ public class Livro implements Serializable {
 	) // JoinTable = faz a terceira tabela pro mapeamento n:n
 	private List<Categoria> categorias = new ArrayList<>();
 	
+	@ManyToOne
+	@JoinColumn(name="editora_id")
+	private Editora editora; 
+	
 	public Livro() {}
 
-	public Livro(Integer id, String nome, String descricao, Integer nro_paginas) {
+	public Livro(Integer id, String nome, String descricao, Integer nro_paginas, Editora editora) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.descricao = descricao;
 		this.nro_paginas = nro_paginas;
+		this.editora = editora;
 	}
 
 	public Integer getId() {
@@ -82,6 +88,15 @@ public class Livro implements Serializable {
 
 	public void setCategorias(List<Categoria> categorias) {
 		this.categorias = categorias;
+	}
+	
+	@JsonIgnore // Adicionado para retirar referencia ciclica entre Livro e Editora
+	public Editora getEditora() {
+		return editora;
+	}
+
+	public void setEditora(Editora editora) {
+		this.editora = editora;
 	}
 
 	@Override
