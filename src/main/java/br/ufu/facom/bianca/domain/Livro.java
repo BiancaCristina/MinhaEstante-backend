@@ -8,26 +8,40 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
-public class Categoria implements Serializable{
+public class Livro implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id; 
+	private Integer id;
+	
 	private String nome;
+	private String descricao;
+	private Integer nro_paginas;
 	
-	@ManyToMany(mappedBy="categorias")
-	private List<Livro> livros = new ArrayList<>();
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable (name="LIVRO_CATEGORIA",
+				joinColumns = @JoinColumn(name="livro_id"),
+				inverseJoinColumns= @JoinColumn(name="categoria_id")
+	) // JoinTable = faz a terceira tabela pro mapeamento n:n
+	private List<Categoria> categorias = new ArrayList<>();
 	
-	public Categoria() {}
+	public Livro() {}
 
-	public Categoria(Integer id, String nome) {
+	public Livro(Integer id, String nome, String descricao, Integer nro_paginas) {
 		super();
 		this.id = id;
 		this.nome = nome;
+		this.descricao = descricao;
+		this.nro_paginas = nro_paginas;
 	}
 
 	public Integer getId() {
@@ -45,15 +59,31 @@ public class Categoria implements Serializable{
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
-	public List<Livro> getLivros() {
-		return livros;
+
+	public String getDescricao() {
+		return descricao;
 	}
 
-	public void setLivros(List<Livro> livros) {
-		this.livros = livros;
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
-	
+
+	public Integer getNro_paginas() {
+		return nro_paginas;
+	}
+
+	public void setNro_paginas(Integer nro_paginas) {
+		this.nro_paginas = nro_paginas;
+	}
+
+	public List<Categoria> getCategorias() {
+		return categorias;
+	}
+
+	public void setCategorias(List<Categoria> categorias) {
+		this.categorias = categorias;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -70,7 +100,7 @@ public class Categoria implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Categoria other = (Categoria) obj;
+		Livro other = (Livro) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
