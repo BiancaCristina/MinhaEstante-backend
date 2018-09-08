@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import br.ufu.facom.bianca.domain.Categoria;
 import br.ufu.facom.bianca.repositories.CategoriaRepository;
+import br.ufu.facom.bianca.resources.exceptions.ObjectNotFoundException;
 
 @Service
 public class CategoriaService {
@@ -18,6 +19,9 @@ public class CategoriaService {
 		// Esse metodo busca uma categoria a partir de seu ID
 		
 		Optional<Categoria> obj = repo.findById(id);
-		return obj.orElse(null); // Caso o obj nao tenha sido instanciado o retorno eh null
+		
+		// O retorno abaixo trata o erro de caso o obj nao tenha sido encontrado usando o tratamento de erro criado
+		return obj.orElseThrow( () -> new ObjectNotFoundException(
+				"Objeto nao encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName()));
 	}
 }
