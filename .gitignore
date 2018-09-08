@@ -1,0 +1,33 @@
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### Editadas por mim###
+/src/main/resources 
+/target/classes/application.properties
+*.properties
+### Fim das linhas que foram adicionadas por mim ###
+### Lembrar de refazer esses arquivos caso clone o repositorio ###
+
