@@ -10,10 +10,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import br.ufu.facom.bianca.domain.Autor;
 import br.ufu.facom.bianca.domain.Categoria;
 import br.ufu.facom.bianca.domain.Editora;
+import br.ufu.facom.bianca.domain.Leitor;
 import br.ufu.facom.bianca.domain.Livro;
 import br.ufu.facom.bianca.repositories.AutorRepository;
 import br.ufu.facom.bianca.repositories.CategoriaRepository;
 import br.ufu.facom.bianca.repositories.EditoraRepository;
+import br.ufu.facom.bianca.repositories.LeitorRepository;
 import br.ufu.facom.bianca.repositories.LivroRepository;
 
 @SpringBootApplication
@@ -31,6 +33,9 @@ public class MinhaEstanteBackendApplication implements CommandLineRunner {
 	@Autowired
 	private AutorRepository autorRepository;
 	
+	@Autowired
+	private LeitorRepository leitorRepository; 
+	
 	public static void main(String[] args) {
 		SpringApplication.run(MinhaEstanteBackendApplication.class, args);
 	}
@@ -43,9 +48,7 @@ public class MinhaEstanteBackendApplication implements CommandLineRunner {
 		Categoria cat3 = new Categoria(null,"Medieval");
 		Categoria cat4 = new Categoria(null,"Policial");
 		Categoria cat5 = new Categoria(null,"Suspense");
-		
-		
-		
+				
 		// Editoras
 		Editora ed1 = new Editora(null, "Editora Viver");
 		Editora ed2 = new Editora(null, "Editora Felicidade");
@@ -107,12 +110,30 @@ public class MinhaEstanteBackendApplication implements CommandLineRunner {
 		l7.getAutores().add(a3);
 		l8.getAutores().add(a5);
 		
+		// Leitores
+		Leitor le1 = new Leitor(null, "Bianca Cristina");
+		Leitor le2 = new Leitor(null, "Thaynara Silva");
+		Leitor le3 = new Leitor(null, "Gustavo Fernandes");
+		
+		leitorRepository.saveAll(Arrays.asList(le1,le2,le3));
+		
+		le1.getLivrosLidos().addAll(Arrays.asList(l1,l2,l3,l4));
+		le2.getLivrosLidos().addAll(Arrays.asList(l4,l8));
+		le3.getLivrosDesejados().addAll(Arrays.asList(l5,l6,l7));
+		
+		l1.getLeitoresLeram().add(le1);
+		l2.getLeitoresLeram().add(le1);
+		l3.getLeitoresLeram().add(le1);
+		l4.getLeitoresLeram().addAll(Arrays.asList(le1,le2));
+		l8.getLeitoresLeram().add(le2);
+		
+		l5.getLeitoresDesejam().add(le3);
+		l6.getLeitoresDesejam().add(le3);
+		l7.getLeitoresDesejam().add(le3);
+
+		
 		autorRepository.saveAll(Arrays.asList(a1,a2,a3,a4,a5));
 		livroRepository.saveAll(Arrays.asList(l1,l2,l3,l4,l5,l6,l7,l8));
-		
-		
-		
-
 		
 	}
 }

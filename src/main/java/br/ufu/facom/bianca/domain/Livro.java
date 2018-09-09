@@ -47,6 +47,22 @@ public class Livro implements Serializable {
 	)
 	private List<Autor> autores = new ArrayList<>(); 
 	
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(name="LIVROLIDO_LEITOR",
+			   joinColumns = @JoinColumn(name="livro_id"),
+			   inverseJoinColumns = @JoinColumn(name="leitor_id")
+	)
+	private List<Leitor> leitoresLeram = new ArrayList<>();
+	
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(name="LIVRODESEJADO_LEITOR",
+			   joinColumns = @JoinColumn(name="livro_id"),
+			   inverseJoinColumns = @JoinColumn(name="leitor_id")
+	)
+	private List<Leitor> leitoresDesejam = new ArrayList<>();
+	
 	public Livro() {}
 
 	public Livro(Integer id, String nome, String descricao, Integer nro_paginas, Editora editora) {
@@ -114,6 +130,22 @@ public class Livro implements Serializable {
 
 	public void setAutores(List<Autor> autores) {
 		this.autores = autores;
+	}
+	
+	public List<Leitor> getLeitoresLeram() {
+		return leitoresLeram;
+	}
+
+	public void setLeitoresLeram(List<Leitor> leitoresLeram) {
+		this.leitoresLeram = leitoresLeram;
+	}
+
+	public List<Leitor> getLeitoresDesejam() {
+		return leitoresDesejam;
+	}
+
+	public void setLeitoresDesejam(List<Leitor> leitoresDesejam) {
+		this.leitoresDesejam = leitoresDesejam;
 	}
 
 	@Override
