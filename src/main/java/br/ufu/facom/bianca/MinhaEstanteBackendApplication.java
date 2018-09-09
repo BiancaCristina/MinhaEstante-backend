@@ -130,7 +130,12 @@ public class MinhaEstanteBackendApplication implements CommandLineRunner {
 		l5.getLeitoresDesejam().add(le3);
 		l6.getLeitoresDesejam().add(le3);
 		l7.getLeitoresDesejam().add(le3);
-
+		
+		le1.getAutoresFavoritos().addAll(Arrays.asList(a1,a2));
+		le2.getAutoresFavoritos().addAll(Arrays.asList(a2));
+		
+		a1.getLeitoresGostam().add(le1);
+		a2.getLeitoresGostam().addAll(Arrays.asList(le1,le2));
 		
 		autorRepository.saveAll(Arrays.asList(a1,a2,a3,a4,a5));
 		livroRepository.saveAll(Arrays.asList(l1,l2,l3,l4,l5,l6,l7,l8));
