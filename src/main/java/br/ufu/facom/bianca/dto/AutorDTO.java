@@ -2,18 +2,20 @@ package br.ufu.facom.bianca.dto;
 
 import java.io.Serializable;
 
+import br.ufu.facom.bianca.domain.Autor;
+
 public class AutorDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
-	private Integer nome; 
+	private String nome; 
 	
 	public AutorDTO() {}
 
-	public AutorDTO(Integer id, Integer nome) {
+	public AutorDTO(Autor obj) {
 		super();
-		this.id = id;
-		this.nome = nome;
+		this.id = obj.getId();
+		this.nome = obj.getNome();
 	}
 
 	public Integer getId() {
@@ -24,12 +26,13 @@ public class AutorDTO implements Serializable{
 		this.id = id;
 	}
 
-	public Integer getNome() {
+	public String getNome() {
 		return nome;
 	}
 
-	public void setNome(Integer nome) {
+	public void setNome(String nome) {
 		this.nome = nome;
 	}
+	
 	
 }
