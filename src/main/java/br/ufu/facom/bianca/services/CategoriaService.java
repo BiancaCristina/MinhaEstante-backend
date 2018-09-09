@@ -3,12 +3,14 @@ package br.ufu.facom.bianca.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import br.ufu.facom.bianca.domain.Categoria;
 import br.ufu.facom.bianca.dto.CategoriaDTO;
 import br.ufu.facom.bianca.repositories.CategoriaRepository;
 import br.ufu.facom.bianca.resources.exceptions.ObjectNotFoundException;
+import br.ufu.facom.bianca.services.exceptions.DataIntegrityException;
 
 @Service
 public class CategoriaService {
@@ -32,11 +34,6 @@ public class CategoriaService {
 		return repo.save(obj);
 	}	
 	
-	public Categoria fromDTO(CategoriaDTO objDTO) {
-		// Metodo auxiliar que instancia um objeto do tipo Categoria a partir de um objeto do tipo CategoriaDTO
-		return new Categoria(objDTO.getId(),objDTO.getNome());
-	}
-	
 	public Categoria update (Categoria obj) {
 		// Metodo que atualiza a categoria
 		
@@ -49,5 +46,25 @@ public class CategoriaService {
 		// Metodo exclusivo de CategoriaService que vai atualizar o nome da Categoria
 		// So atualiza o nome e nada mais porque eh o unico atributo de CategoriaDTO que pode ser atualizado
 		newObj.setNome(obj.getNome());
+	}
+	
+	public void delete(Integer id) {
+		// Metodo que deleta uma Categoria
+		this.find(id);
+		
+		try 
+		{			
+			repo.deleteById(id);
+		}
+		
+		catch (DataIntegrityViolationException e)
+		{
+			throw new DataIntegrityException("Não é possível excluir uma categoria que possui livros associados");
+		}		
+	}
+	
+	public Categoria fromDTO(CategoriaDTO objDTO) {
+		// Metodo auxiliar que instancia um objeto do tipo Categoria a partir de um objeto do tipo CategoriaDTO
+		return new Categoria(objDTO.getId(),objDTO.getNome());
 	}
 }
