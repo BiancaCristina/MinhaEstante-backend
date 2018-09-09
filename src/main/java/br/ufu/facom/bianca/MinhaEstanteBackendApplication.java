@@ -7,9 +7,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import br.ufu.facom.bianca.domain.Autor;
 import br.ufu.facom.bianca.domain.Categoria;
 import br.ufu.facom.bianca.domain.Editora;
 import br.ufu.facom.bianca.domain.Livro;
+import br.ufu.facom.bianca.repositories.AutorRepository;
 import br.ufu.facom.bianca.repositories.CategoriaRepository;
 import br.ufu.facom.bianca.repositories.EditoraRepository;
 import br.ufu.facom.bianca.repositories.LivroRepository;
@@ -26,6 +28,9 @@ public class MinhaEstanteBackendApplication implements CommandLineRunner {
 	@Autowired
 	private EditoraRepository editoraRepository; 
 	
+	@Autowired
+	private AutorRepository autorRepository;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(MinhaEstanteBackendApplication.class, args);
 	}
@@ -39,7 +44,7 @@ public class MinhaEstanteBackendApplication implements CommandLineRunner {
 		Categoria cat4 = new Categoria(null,"Policial");
 		Categoria cat5 = new Categoria(null,"Suspense");
 		
-		categoriaRepository.saveAll(Arrays.asList(cat1,cat2,cat3,cat4,cat5));
+		
 		
 		// Editoras
 		Editora ed1 = new Editora(null, "Editora Viver");
@@ -57,13 +62,13 @@ public class MinhaEstanteBackendApplication implements CommandLineRunner {
 		Livro l6 = new Livro(null, "O código da Vinci", "Muito bom", 500, ed2);
 		Livro l7 = new Livro(null, "Crônicas Saxônicas", "Quem é Game of Thrones perto dessa saga?", 623, ed3);
 		Livro l8 = new Livro(null, "O inocente", "Policial e suspense também", 321, ed3);
-		
-		livroRepository.saveAll(Arrays.asList(l1,l2,l3,l4,l5,l6,l7,l8));
-		
+				
 		// Adicionando cada livro na editora
 		ed1.getLivrosPublicados().addAll(Arrays.asList(l1,l2,l3));
 		ed2.getLivrosPublicados().addAll(Arrays.asList(l4,l5,l6));
 		ed3.getLivrosPublicados().addAll(Arrays.asList(l7,l8));
+		
+		editoraRepository.saveAll(Arrays.asList(ed1,ed2,ed3));
 		
 		// Adicionando os livros em cada categoria
 		cat1.getLivros().addAll(Arrays.asList(l1,l3));
@@ -82,7 +87,30 @@ public class MinhaEstanteBackendApplication implements CommandLineRunner {
 		l7.getCategorias().add(cat3);
 		l8.getCategorias().addAll(Arrays.asList(cat4,cat5));
 		
-		// Salvando no repositorio
+		categoriaRepository.saveAll(Arrays.asList(cat1,cat2,cat3,cat4,cat5));
+		livroRepository.saveAll(Arrays.asList(l1,l2,l3,l4,l5,l6,l7,l8));
+		
+		// Autores
+		Autor a1 = new Autor(null, "John Green");
+		Autor a2 = new Autor(null, "Dan Brown");
+		Autor a3 = new Autor(null, "Bernard Cornwell");
+		Autor a4 = new Autor(null, "Fulano");
+		Autor a5 = new Autor(null, "Ciclano");
+					
+		// Adicionando autores aos livros
+		l1.getAutores().add(a1);
+		l2.getAutores().addAll(Arrays.asList(a4,a5));
+		l3.getAutores().add(a4);
+		l4.getAutores().addAll(Arrays.asList(a4,a5));
+		l5.getAutores().addAll(Arrays.asList(a4,a5));
+		l6.getAutores().add(a2);
+		l7.getAutores().add(a3);
+		l8.getAutores().add(a5);
+		
+		autorRepository.saveAll(Arrays.asList(a1,a2,a3,a4,a5));
+		livroRepository.saveAll(Arrays.asList(l1,l2,l3,l4,l5,l6,l7,l8));
+		
+		
 		
 
 		
