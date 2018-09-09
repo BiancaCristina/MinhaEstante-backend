@@ -55,4 +55,12 @@ public class AutorResource {
 		
 		return ResponseEntity.noContent().build();
 	}
+	
+	@RequestMapping(value="/{id}",method= RequestMethod.DELETE) 
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
+		// Metodo que deleta uma Categoria
+		service.delete(id);		
+		
+		return ResponseEntity.noContent().build();
+	}
 }

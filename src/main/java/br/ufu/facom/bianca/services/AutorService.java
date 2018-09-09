@@ -3,12 +3,14 @@ package br.ufu.facom.bianca.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import br.ufu.facom.bianca.domain.Autor;
 import br.ufu.facom.bianca.dto.AutorDTO;
 import br.ufu.facom.bianca.repositories.AutorRepository;
 import br.ufu.facom.bianca.resources.exceptions.ObjectNotFoundException;
+import br.ufu.facom.bianca.services.exceptions.DataIntegrityException;
 
 @Service
 public class AutorService {
@@ -50,5 +52,20 @@ public class AutorService {
 	public Autor fromDTO(AutorDTO objDTO) {
 		// Metodo auxiliar que instancia um objeto do tipo Autor a partir de um objeto do tipo AutorDTO
 		return new Autor(objDTO.getId(),objDTO.getNome());
+	}
+	
+	public void delete(Integer id) {
+		// Metodo que deleta uma Autor
+		this.find(id);
+		
+		try 
+		{			
+			repo.deleteById(id);
+		}
+		
+		catch (DataIntegrityViolationException e)
+		{
+			throw new DataIntegrityException("Não é possível excluir um autor com livros/leitores associados");
+		}		
 	}
 }
