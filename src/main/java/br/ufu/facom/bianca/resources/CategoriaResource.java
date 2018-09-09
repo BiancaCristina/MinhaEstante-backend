@@ -1,6 +1,8 @@
 package br.ufu.facom.bianca.resources;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -59,5 +61,16 @@ public class CategoriaResource {
 		service.delete(id);		
 		
 		return ResponseEntity.noContent().build();
+	}
+	
+	@RequestMapping(method= RequestMethod.GET)
+	public ResponseEntity<List<CategoriaDTO>> findAll() {
+		// Metodo que busca todas as categoriasDTO (sem paginacao)
+		List <Categoria> list = service.findAll();
+		
+		// O codigo abaixo converte cada objeto da lista de Categoria em um objeto de CategoriaDTO e forma uma lista de CategoriaDTO
+		// CategoriaDTO mostrara apenas os dados que me interessam quando estou imprimindo a lista de Categorias(id,nome)
+		List <CategoriaDTO> listDTO = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDTO);
 	}
 }

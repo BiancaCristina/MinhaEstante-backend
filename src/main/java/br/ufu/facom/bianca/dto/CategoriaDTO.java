@@ -2,6 +2,8 @@ package br.ufu.facom.bianca.dto;
 
 import java.io.Serializable;
 
+import br.ufu.facom.bianca.domain.Categoria;
+
 public class CategoriaDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
@@ -10,10 +12,10 @@ public class CategoriaDTO implements Serializable{
 	
 	public CategoriaDTO() {}
 
-	public CategoriaDTO(Integer id, String nome) {
+	public CategoriaDTO(Categoria obj) {
 		super();
-		this.id = id;
-		this.nome = nome;
+		this.id = obj.getId();
+		this.nome = obj.getNome();
 	}
 
 	public Integer getId() {
