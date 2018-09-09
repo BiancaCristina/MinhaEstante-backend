@@ -26,24 +26,30 @@ public class CategoriaResource {
 	
 	@RequestMapping(value="/{id}", method= RequestMethod.GET)
 	public ResponseEntity<?> find(@PathVariable Integer id) {
-		// @PathVariable faz: Integer id == {id}
-		// O "?" eh porque a resposta pode ser bem sucedida ou nao
-		// ResponseEntity = armazena infos da resposta HTTP para o servico REST
-		
+		// Metodo que procura uma Categoria por seu ID
 		Categoria obj = service.find(id);
-		return ResponseEntity.ok().body(obj); // Retorna uma resposta OK e o objeto como corpo
+		return ResponseEntity.ok().body(obj);
 	}
 	
-	@RequestMapping(method=RequestMethod.POST) // Faz com que seja um metodo POST
+	@RequestMapping(method=RequestMethod.POST) 
 	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDTO) {
-		//@RequestBody = faz o Json ser convertido automaticamente para o objeto java
-		Categoria obj = service.fromDTO(objDTO); // Converte CategoriaDTO em Categoria
-		obj = service.insert(obj); // Chama o metodo "insert" do objeto "service" que eh do tipo CategoriaService
-		// Http status code = mostra os codigos http padrao 
-		
+		// Metodo que insere uma nova Categoria
+		Categoria obj = service.fromDTO(objDTO); 
+		obj = service.insert(obj); 	
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-		// Esse uri serve pra me dar a url da nova categoria que inseri
 		
 		return ResponseEntity.created(uri).build();		
+	}
+	
+	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
+	public ResponseEntity<Void> update(@RequestBody @Valid CategoriaDTO objDTO, @PathVariable Integer id) {
+		// Metodo que atualiza a Categoria
+		
+		Categoria obj = service.fromDTO(objDTO);
+		
+		obj.setId(id); // Comando feito pra garantir que o objeto que eu to passando tenha ID que eu quero atualizar
+		obj = service.update(obj);
+		
+		return ResponseEntity.noContent().build();
 	}
 }
