@@ -2,6 +2,8 @@ package br.ufu.facom.bianca.dto;
 
 import java.io.Serializable;
 
+import br.ufu.facom.bianca.domain.Editora;
+
 public class EditoraDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
@@ -10,10 +12,10 @@ public class EditoraDTO implements Serializable{
 	
 	public EditoraDTO() {}
 
-	public EditoraDTO(Integer id, String nome) {
+	public EditoraDTO(Editora obj) {
 		super();
-		this.id = id;
-		this.nome = nome;
+		this.id = obj.getId();
+		this.nome = obj.getNome();
 	}
 
 	public Integer getId() {
