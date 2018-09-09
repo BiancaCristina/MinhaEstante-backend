@@ -30,7 +30,7 @@ public class EditoraResource {
 		// O "?" eh porque a resposta pode ser bem sucedida ou nao
 		// ResponseEntity = armazena infos da resposta HTTP para o servico REST
 		
-		Editora obj = service.findById(id);
+		Editora obj = service.find(id);
 		return ResponseEntity.ok().body(obj); // Retorna uma resposta OK e o objeto como corpo
 	}
 	
@@ -42,5 +42,17 @@ public class EditoraResource {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		
 		return ResponseEntity.created(uri).build();		
+	}
+	
+	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
+	public ResponseEntity<Void> update(@RequestBody @Valid EditoraDTO objDTO, @PathVariable Integer id) {
+		// Metodo que atualiza a Editora
+		
+		Editora obj = service.fromDTO(objDTO);
+		
+		obj.setId(id); // Comando feito pra garantir que o objeto que eu to passando tenha ID que eu quero atualizar
+		obj = service.update(obj);
+		
+		return ResponseEntity.noContent().build();
 	}
 }

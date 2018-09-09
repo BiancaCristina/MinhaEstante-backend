@@ -16,7 +16,7 @@ public class EditoraService {
 	@Autowired
 	private EditoraRepository repo;
 	
-	public Editora findById (Integer id) {
+	public Editora find (Integer id) {
 		// Esse metodo busca uma categoria a partir de seu ID
 		
 		Optional<Editora> obj = repo.findById(id);
@@ -32,6 +32,20 @@ public class EditoraService {
 
 		return repo.save(obj);
 	}	
+	
+	public Editora update (Editora obj) {
+		// Metodo que atualiza a categoria
+		
+		Editora newObj = this.find(obj.getId()); // Procura o obj do parametro pelo ID e faz "newObj" recebe-lo (caso exista)
+		this.updateData(newObj,obj); // Salva os dados de newObj de acordo com os dados previos de obj
+		return repo.save(newObj);
+	}
+	
+	private void updateData(Editora newObj,Editora obj) {
+		// Metodo exclusivo de EditoraService que vai atualizar o nome da Editora
+		// So atualiza o nome e nada mais porque eh o unico atributo de EditoraDTO que pode ser atualizado
+		newObj.setNome(obj.getNome());
+	}
 	
 	public Editora fromDTO(EditoraDTO objDTO) {
 		// Metodo auxiliar que instancia um objeto do tipo Editora a partir de um objeto do tipo EditoraDTO
