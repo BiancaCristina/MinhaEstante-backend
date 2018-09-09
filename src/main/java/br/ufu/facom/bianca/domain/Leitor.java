@@ -29,6 +29,9 @@ public class Leitor implements Serializable {
 	@ManyToMany(mappedBy="leitoresGostam")
 	private List<Autor> autoresFavoritos = new ArrayList<>();
 	
+	@ManyToMany(mappedBy="leitoresFavoritam")
+	private List<Editora> editorasFavoritas = new ArrayList<>();
+	
 	public Leitor() {}
 
 	public Leitor(Integer id, String nome) {
@@ -75,6 +78,14 @@ public class Leitor implements Serializable {
 
 	public void setAutoresFavoritos(List<Autor> autoresFavoritos) {
 		this.autoresFavoritos = autoresFavoritos;
+	}
+
+	public List<Editora> getEditorasFavoritas() {
+		return editorasFavoritas;
+	}
+
+	public void setEditorasFavoritas(List<Editora> editorasFavoritas) {
+		this.editorasFavoritas = editorasFavoritas;
 	}
 
 	@Override

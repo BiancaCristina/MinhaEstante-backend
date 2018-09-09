@@ -8,7 +8,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Editora implements Serializable {
@@ -22,6 +27,14 @@ public class Editora implements Serializable {
 	
 	@OneToMany(mappedBy="editora")
 	private List<Livro> livrosPublicados = new ArrayList<>();
+	
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(name="EDITORA_LEITOR",
+			   joinColumns = @JoinColumn(name="editora_id"),
+			   inverseJoinColumns = @JoinColumn(name="leitor_id")	
+	)
+	private List<Leitor> leitoresFavoritam = new ArrayList<>();
 	
 	public Editora(){}
 
@@ -53,6 +66,14 @@ public class Editora implements Serializable {
 
 	public void setLivrosPublicados(List<Livro> livrosPublicados) {
 		this.livrosPublicados = livrosPublicados;
+	}
+	
+	public List<Leitor> getLeitoresFavoritam() {
+		return leitoresFavoritam;
+	}
+
+	public void setLeitoresFavoritam(List<Leitor> leitoresFavoritam) {
+		this.leitoresFavoritam = leitoresFavoritam;
 	}
 
 	@Override
