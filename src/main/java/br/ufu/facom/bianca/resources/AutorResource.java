@@ -43,4 +43,16 @@ public class AutorResource {
 		
 		return ResponseEntity.created(uri).build();		
 	}
+	
+	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
+	public ResponseEntity<Void> update(@RequestBody @Valid AutorDTO objDTO, @PathVariable Integer id) {
+		// Metodo que atualiza a Autor
+		
+		Autor obj = service.fromDTO(objDTO);
+		
+		obj.setId(id); // Comando feito pra garantir que o objeto que eu to passando tenha ID que eu quero atualizar
+		obj = service.update(obj);
+		
+		return ResponseEntity.noContent().build();
+	}
 }

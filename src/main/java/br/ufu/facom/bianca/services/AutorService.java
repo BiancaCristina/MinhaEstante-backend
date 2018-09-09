@@ -33,6 +33,20 @@ public class AutorService {
 		return repo.save(obj);
 	}
 	
+	public Autor update (Autor obj) {
+		// Metodo que atualiza a categoria
+		
+		Autor newObj = this.find(obj.getId()); // Procura o obj do parametro pelo ID e faz "newObj" recebe-lo (caso exista)
+		this.updateData(newObj,obj); // Salva os dados de newObj de acordo com os dados previos de obj
+		return repo.save(newObj);
+	}
+	
+	private void updateData(Autor newObj,Autor obj) {
+		// Metodo exclusivo de AutorService que vai atualizar o nome da Autor
+		// So atualiza o nome e nada mais porque eh o unico atributo de AutorDTO que pode ser atualizado
+		newObj.setNome(obj.getNome());
+	}
+	
 	public Autor fromDTO(AutorDTO objDTO) {
 		// Metodo auxiliar que instancia um objeto do tipo Autor a partir de um objeto do tipo AutorDTO
 		return new Autor(objDTO.getId(),objDTO.getNome());
