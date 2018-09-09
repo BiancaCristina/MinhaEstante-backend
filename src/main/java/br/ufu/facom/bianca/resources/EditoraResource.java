@@ -1,6 +1,7 @@
 package br.ufu.facom.bianca.resources;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.ufu.facom.bianca.domain.Editora;
 import br.ufu.facom.bianca.dto.EditoraDTO;
+import br.ufu.facom.bianca.resources.utils.URL;
 import br.ufu.facom.bianca.services.EditoraService;
 
 @RestController
@@ -80,5 +82,15 @@ public class EditoraResource {
 		// EditoraDTO mostrara apenas os dados que me interessam quando estou imprimindo a lista de Editoras(id,nome)
 		Page<EditoraDTO> listDTO = list.map(obj -> new EditoraDTO(obj));
 		return ResponseEntity.ok().body(listDTO);
+	}
+	
+	@RequestMapping(value="/nomesearch", method=RequestMethod.GET)
+	public ResponseEntity<List<Editora>> findByNome(@RequestParam(value="nome", defaultValue="") String nome) {
+		// Esse metodo acha todas as editoras que contenham algo dessa string nome
+		nome = URL.decodeParam(nome);
+		
+		List<Editora> list = service.findByNome(nome);
+		
+		return ResponseEntity.ok().body(list);
 	}
 }

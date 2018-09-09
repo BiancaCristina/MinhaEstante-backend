@@ -80,6 +80,11 @@ public class EditoraService {
 		return repo.findAll(pageRequest);
 	}
 	
+	public List<Editora> findByNome(String nome){
+		// Esse metodo encontra as editoras que possuam esse nome
+		return repo.findByNomeContainingIgnoreCase(nome);
+	}
+	
 	public Editora fromDTO(EditoraDTO objDTO) {
 		// Metodo auxiliar que instancia um objeto do tipo Editora a partir de um objeto do tipo EditoraDTO
 		return new Editora(objDTO.getId(),objDTO.getNome());
