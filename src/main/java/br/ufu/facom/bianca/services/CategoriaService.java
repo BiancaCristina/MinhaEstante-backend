@@ -5,6 +5,9 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import br.ufu.facom.bianca.domain.Categoria;
@@ -67,6 +70,13 @@ public class CategoriaService {
 	public List<Categoria> findAll(){
 		// Esse metodo retorna todas as categorias
 		return repo.findAll();
+	}
+	
+	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		// Esse metodo acha todas as categorias de forma paginada 
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction),orderBy);
+		
+		return repo.findAll(pageRequest);
 	}
 	
 	public Categoria fromDTO(CategoriaDTO objDTO) {

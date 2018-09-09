@@ -7,11 +7,13 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -73,4 +75,21 @@ public class CategoriaResource {
 		List <CategoriaDTO> listDTO = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDTO);
 	}
+	
+	@RequestMapping(value="/page",method= RequestMethod.GET)
+	public ResponseEntity<Page<CategoriaDTO>> findPage(
+			@RequestParam(name="page",defaultValue="0") Integer page, 
+			@RequestParam(name="linesPerPage",defaultValue="24") Integer linesPerPage, 
+			@RequestParam(name="orderBy",defaultValue="nome") String orderBy, 
+			@RequestParam(name="direction",defaultValue="ASC") String direction) 
+	{	
+		// Esse metodo faz a paginacao quando retorna a lista de todas as categorias 
+		Page<Categoria> list = service.findPage(page,linesPerPage,orderBy,direction);
+		
+		// O codigo abaixo converte cada objeto da lista de Categoria em um objeto de CategoriaDTO e forma uma lista de CategoriaDTO
+		// CategoriaDTO mostrara apenas os dados que me interessam quando estou imprimindo a lista de Categorias(id,nome)
+		Page<CategoriaDTO> listDTO = list.map(obj -> new CategoriaDTO(obj));
+		return ResponseEntity.ok().body(listDTO);
+	}
+
 }
