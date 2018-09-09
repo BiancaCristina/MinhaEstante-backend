@@ -3,12 +3,14 @@ package br.ufu.facom.bianca.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import br.ufu.facom.bianca.domain.Editora;
 import br.ufu.facom.bianca.dto.EditoraDTO;
 import br.ufu.facom.bianca.repositories.EditoraRepository;
 import br.ufu.facom.bianca.resources.exceptions.ObjectNotFoundException;
+import br.ufu.facom.bianca.services.exceptions.DataIntegrityException;
 
 @Service
 public class EditoraService {
@@ -45,6 +47,21 @@ public class EditoraService {
 		// Metodo exclusivo de EditoraService que vai atualizar o nome da Editora
 		// So atualiza o nome e nada mais porque eh o unico atributo de EditoraDTO que pode ser atualizado
 		newObj.setNome(obj.getNome());
+	}
+	
+	public void delete(Integer id) {
+		// Metodo que deleta uma Editora
+		this.find(id);
+		
+		try 
+		{			
+			repo.deleteById(id);
+		}
+		
+		catch (DataIntegrityViolationException e)
+		{
+			throw new DataIntegrityException("Não é possível excluir uma editora com livros/leitores associados");
+		}		
 	}
 	
 	public Editora fromDTO(EditoraDTO objDTO) {
