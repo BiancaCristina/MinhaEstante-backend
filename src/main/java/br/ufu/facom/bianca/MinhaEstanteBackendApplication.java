@@ -111,9 +111,9 @@ public class MinhaEstanteBackendApplication implements CommandLineRunner {
 		l8.getAutores().add(a5);
 		
 		// Leitores
-		Leitor le1 = new Leitor(null, "Bianca Cristina");
-		Leitor le2 = new Leitor(null, "Thaynara Silva");
-		Leitor le3 = new Leitor(null, "Gustavo Fernandes");
+		Leitor le1 = new Leitor(null, "Bianca Cristina", "bianca@gmail.com","123");
+		Leitor le2 = new Leitor(null, "Thaynara Silva", "thaynara@gmail.com","123");
+		Leitor le3 = new Leitor(null, "Gustavo Fernandes","gustavo@gmail.com","123");
 		
 		leitorRepository.saveAll(Arrays.asList(le1,le2,le3));
 		

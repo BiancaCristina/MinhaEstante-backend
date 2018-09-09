@@ -19,6 +19,8 @@ public class Leitor implements Serializable {
 	private Integer id;
 	
 	private String nome;
+	private String email;
+	private String senha;
 	
 	@ManyToMany(mappedBy="leitoresDesejam")
 	private List<Livro> livrosDesejados = new ArrayList<>();
@@ -34,10 +36,12 @@ public class Leitor implements Serializable {
 	
 	public Leitor() {}
 
-	public Leitor(Integer id, String nome) {
+	public Leitor(Integer id, String nome, String email, String senha) {
 		super();
 		this.id = id;
 		this.nome = nome;
+		this.email = email;
+		this.senha = senha;
 	}
 
 	public Integer getId() {
@@ -86,6 +90,22 @@ public class Leitor implements Serializable {
 
 	public void setEditorasFavoritas(List<Editora> editorasFavoritas) {
 		this.editorasFavoritas = editorasFavoritas;
+	}
+	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 	@Override
