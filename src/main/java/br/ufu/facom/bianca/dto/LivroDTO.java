@@ -1,6 +1,10 @@
 package br.ufu.facom.bianca.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import br.ufu.facom.bianca.domain.Livro;
 
 public class LivroDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -9,15 +13,18 @@ public class LivroDTO implements Serializable {
 	private String nome;
 	private String descricao;
 	private Integer nro_paginas;
+	private EditoraDTO editoraDTO; // Setar a editora quando instanciar (usar o metodo set)
+	private List<AutorDTO> autoresDTO = new ArrayList<>();
 	
 	public LivroDTO() {}
 
-	public LivroDTO(Integer id, String nome, String descricao, Integer nro_paginas) {
+	public LivroDTO(Livro obj) {
 		super();
-		this.id = id;
-		this.nome = nome;
-		this.descricao = descricao;
-		this.nro_paginas = nro_paginas;
+		this.id = obj.getId();
+		this.nome = obj.getNome();
+		this.descricao = obj.getDescricao();
+		this.nro_paginas = obj.getNro_paginas();
+		this.editoraDTO = new EditoraDTO(obj.getEditora());
 	}
 
 	public Integer getId() {
@@ -50,6 +57,22 @@ public class LivroDTO implements Serializable {
 
 	public void setNro_paginas(Integer nro_paginas) {
 		this.nro_paginas = nro_paginas;
+	}
+
+	public EditoraDTO getEditoraDTO() {
+		return editoraDTO;
+	}
+
+	public void setEditoraDTO(EditoraDTO editoraDTO) {
+		this.editoraDTO = editoraDTO;
+	}
+
+	public List<AutorDTO> getAutoresDTO() {
+		return autoresDTO;
+	}
+
+	public void setAutoresDTO(List<AutorDTO> autoresDTO) {
+		this.autoresDTO = autoresDTO;
 	}
 	
 }

@@ -2,7 +2,7 @@ package br.ufu.facom.bianca.dto;
 
 import java.io.Serializable;
 
-public class ClienteNewDTO implements Serializable{
+public class LeitorNewDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	// Leitor para insercao
 	// Nao precisa do ID porque isso vai ser gerado pelo banco de dados
@@ -11,9 +11,9 @@ public class ClienteNewDTO implements Serializable{
 	private String email;
 	private String senha;
 	
-	public ClienteNewDTO() {}
+	public LeitorNewDTO() {}
 
-	public ClienteNewDTO(String nome, String email, String senha) {
+	public LeitorNewDTO(String nome, String email, String senha) {
 		super();
 		this.nome = nome;
 		this.email = email;

@@ -89,4 +89,9 @@ public class EditoraService {
 		// Metodo auxiliar que instancia um objeto do tipo Editora a partir de um objeto do tipo EditoraDTO
 		return new Editora(objDTO.getId(),objDTO.getNome());
 	}
+	
+	public EditoraDTO toDTO (Editora obj) {
+		// Metodo auxiliar que instancia um objeto do tipo EditoraDTO a partir de um objeto do tipo Editora
+		return new EditoraDTO(obj);
+	}
 }

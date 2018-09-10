@@ -147,7 +147,7 @@ public class Livro implements Serializable {
 	public void setLeitoresDesejam(List<Leitor> leitoresDesejam) {
 		this.leitoresDesejam = leitoresDesejam;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
