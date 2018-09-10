@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.ufu.facom.bianca.domain.Autor;
+import br.ufu.facom.bianca.domain.Categoria;
 import br.ufu.facom.bianca.domain.Livro;
 import br.ufu.facom.bianca.dto.LivroDTO;
 import br.ufu.facom.bianca.repositories.LivroRepository;
+import br.ufu.facom.bianca.resources.exceptions.ObjectNotFoundException;
 
 @Service
 public class LivroService {
@@ -24,7 +26,8 @@ public class LivroService {
 		// Esse metodo busca um livro a partir de seu ID e o retorna como DTO (pra poder mostrar os autores)
 		
 		Optional<Livro> obj = repo.findById(id);
-		return obj.orElse(null); // Caso o obj nao tenha sido instanciado o retorno eh null
+		return obj.orElseThrow( () -> new ObjectNotFoundException(
+				"Objeto nao encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName()));
 	}
 	
 	public Livro insert (Livro obj) {
