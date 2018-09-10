@@ -1,6 +1,8 @@
 package br.ufu.facom.bianca.resources;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -17,6 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.ufu.facom.bianca.domain.Autor;
 import br.ufu.facom.bianca.dto.AutorDTO;
+import br.ufu.facom.bianca.resources.utils.URL;
 import br.ufu.facom.bianca.services.AutorService;
 
 @RestController
@@ -80,5 +83,15 @@ public class AutorResource {
 		// AutorDTO mostrara apenas os dados que me interessam quando estou imprimindo a lista de Autors(id,nome)
 		Page<AutorDTO> listDTO = list.map(obj -> new AutorDTO(obj));
 		return ResponseEntity.ok().body(listDTO);
+	}
+	
+	@RequestMapping(value="/nomesearch", method=RequestMethod.GET)
+	public ResponseEntity<List<AutorDTO>> findByNome(@RequestParam(value="nome", defaultValue="") String nome) {
+		nome = URL.decodeParam(nome);
+		
+		List<Autor> list = service.findByNome(nome);
+		List<AutorDTO> listDTO = list.stream().map(obj -> new AutorDTO(obj)).collect(Collectors.toList());
+		
+		return ResponseEntity.ok().body(listDTO);		
 	}
 }

@@ -80,6 +80,9 @@ public class AutorService {
 		return repo.findAll(pageRequest);
 	}
 	
+	public List<Autor> findByNome(String nome){
+		return repo.findByNomeContainingIgnoreCase(nome); 
+	}
 	public Autor fromDTO(AutorDTO objDTO) {
 		// Metodo auxiliar que instancia um objeto do tipo Autor a partir de um objeto do tipo AutorDTO
 		return new Autor(objDTO.getId(),objDTO.getNome());
