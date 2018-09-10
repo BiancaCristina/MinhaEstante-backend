@@ -39,7 +39,7 @@ public class LivroResource {
 		// O comando abaixo seta os autores de newObj a partir dos autores de obj
 		newObj.setAutoresDTO(obj.getAutores().stream().map(objLambda-> new AutorDTO(objLambda)).collect(Collectors.toList()));
 		
-		return ResponseEntity.ok().body(newObj); // Retorna uma resposta OK e o objeto como corpo
+		return ResponseEntity.ok().body(newObj); 
 	}
 	
 	@RequestMapping(method=RequestMethod.POST) 
@@ -50,5 +50,17 @@ public class LivroResource {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		
 		return ResponseEntity.created(uri).build();		
+	}
+	
+	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
+	public ResponseEntity<Void> update(@RequestBody @Valid LivroDTO objDTO, @PathVariable Integer id) {
+		// Metodo que atualiza a Livro
+		
+		Livro obj = service.fromDTO(objDTO);
+		
+		obj.setId(id); // Comando feito pra garantir que o objeto que eu to passando tenha ID que eu quero atualizar
+		obj = service.update(obj);
+		
+		return ResponseEntity.noContent().build();
 	}
 }

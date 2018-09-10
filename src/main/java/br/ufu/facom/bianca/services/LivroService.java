@@ -39,7 +39,7 @@ public class LivroService {
 		Livro newObj = new Livro(objDTO.getId(),
 				objDTO.getNome(),
 				objDTO.getDescricao(),
-				objDTO.getNro_paginas(),
+				objDTO.getNroPaginas(),
 				editoraService.fromDTO(objDTO.getEditoraDTO()));
 		
 		// O comando abaixo seta os autores pro newObj a partir dos autoresDTO de objDTO
@@ -47,5 +47,23 @@ public class LivroService {
 		
 		return newObj;
 		
+	}
+	
+	public Livro update (Livro obj) {
+		// Metodo que atualiza a categoria
+		
+		Livro newObj = this.find(obj.getId()); // Procura o obj do parametro pelo ID e faz "newObj" recebe-lo (caso exista)
+		this.updateData(newObj,obj); // Salva os dados de newObj de acordo com os dados previos de obj
+		return repo.save(newObj);
+	}
+	
+	private void updateData(Livro newObj,Livro obj) {
+		// Metodo exclusivo de LivroService que vai atualizar o nome da Livro
+		// Atualiza o nome, descricao, numero de paginas e editora
+		// Nao modifica os autores 
+		newObj.setNome(obj.getNome());
+		newObj.setDescricao(obj.getDescricao());
+		newObj.setNroPaginas(obj.getNroPaginas());
+		newObj.setEditora(obj.getEditora());
 	}
 }

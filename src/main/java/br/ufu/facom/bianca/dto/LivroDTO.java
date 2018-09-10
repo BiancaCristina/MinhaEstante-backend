@@ -12,8 +12,8 @@ public class LivroDTO implements Serializable {
 	private Integer id;
 	private String nome;
 	private String descricao;
-	private Integer nro_paginas;
-	private EditoraDTO editoraDTO; // Setar a editora quando instanciar (usar o metodo set)
+	private Integer nroPaginas;
+	private EditoraDTO editoraDTO;
 	private List<AutorDTO> autoresDTO = new ArrayList<>();
 	
 	public LivroDTO() {}
@@ -23,7 +23,7 @@ public class LivroDTO implements Serializable {
 		this.id = obj.getId();
 		this.nome = obj.getNome();
 		this.descricao = obj.getDescricao();
-		this.nro_paginas = obj.getNro_paginas();
+		this.nroPaginas = obj.getNroPaginas();
 		this.editoraDTO = new EditoraDTO(obj.getEditora());
 	}
 
@@ -51,14 +51,6 @@ public class LivroDTO implements Serializable {
 		this.descricao = descricao;
 	}
 
-	public Integer getNro_paginas() {
-		return nro_paginas;
-	}
-
-	public void setNro_paginas(Integer nro_paginas) {
-		this.nro_paginas = nro_paginas;
-	}
-
 	public EditoraDTO getEditoraDTO() {
 		return editoraDTO;
 	}
@@ -73,6 +65,14 @@ public class LivroDTO implements Serializable {
 
 	public void setAutoresDTO(List<AutorDTO> autoresDTO) {
 		this.autoresDTO = autoresDTO;
+	}
+
+	public Integer getNroPaginas() {
+		return nroPaginas;
+	}
+
+	public void setNroPaginas(Integer nroPaginas) {
+		this.nroPaginas = nroPaginas;
 	}
 	
 }

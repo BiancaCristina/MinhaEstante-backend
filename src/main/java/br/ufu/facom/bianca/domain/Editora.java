@@ -15,8 +15,6 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import br.ufu.facom.bianca.dto.EditoraDTO;
-
 @Entity
 public class Editora implements Serializable {
 	private static final long serialVersionUID = 1L;

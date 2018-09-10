@@ -25,7 +25,7 @@ public class Livro implements Serializable {
 	
 	private String nome;
 	private String descricao;
-	private Integer nro_paginas;
+	private Integer nroPaginas;
 	
 	@JsonIgnore
 	@ManyToMany
@@ -65,12 +65,12 @@ public class Livro implements Serializable {
 	
 	public Livro() {}
 
-	public Livro(Integer id, String nome, String descricao, Integer nro_paginas, Editora editora) {
+	public Livro(Integer id, String nome, String descricao, Integer nroPaginas, Editora editora) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.descricao = descricao;
-		this.nro_paginas = nro_paginas;
+		this.nroPaginas = nroPaginas;
 		this.editora = editora;
 	}
 
@@ -96,14 +96,6 @@ public class Livro implements Serializable {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
-	}
-
-	public Integer getNro_paginas() {
-		return nro_paginas;
-	}
-
-	public void setNro_paginas(Integer nro_paginas) {
-		this.nro_paginas = nro_paginas;
 	}
 	
 	@JsonIgnore
@@ -148,6 +140,14 @@ public class Livro implements Serializable {
 		this.leitoresDesejam = leitoresDesejam;
 	}
 	
+	public Integer getNroPaginas() {
+		return nroPaginas;
+	}
+
+	public void setNroPaginas(Integer nroPaginas) {
+		this.nroPaginas = nroPaginas;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
