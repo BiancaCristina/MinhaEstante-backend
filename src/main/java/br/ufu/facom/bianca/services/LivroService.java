@@ -4,15 +4,16 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import br.ufu.facom.bianca.domain.Autor;
-import br.ufu.facom.bianca.domain.Categoria;
 import br.ufu.facom.bianca.domain.Editora;
 import br.ufu.facom.bianca.domain.Livro;
 import br.ufu.facom.bianca.dto.LivroDTO;
 import br.ufu.facom.bianca.repositories.LivroRepository;
 import br.ufu.facom.bianca.resources.exceptions.ObjectNotFoundException;
+import br.ufu.facom.bianca.services.exceptions.DataIntegrityException;
 
 @Service
 public class LivroService {
@@ -28,7 +29,7 @@ public class LivroService {
 		
 		Optional<Livro> obj = repo.findById(id);
 		return obj.orElseThrow( () -> new ObjectNotFoundException(
-				"Objeto nao encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName()));
+				"Objeto nao encontrado! Id: " + id + ", Tipo: " + Livro.class.getName()));
 	}
 	
 	public Livro insert (Livro obj) {
@@ -36,21 +37,6 @@ public class LivroService {
 		obj.setId(null);
 
 		return repo.save(obj);
-	}
-	
-	public Livro fromDTO(LivroDTO objDTO) {
-		// Metodo auxiliar que instancia um objeto do tipo Livro a partir de um objeto do tipo LivroDTO
-		Livro newObj = new Livro(objDTO.getId(),
-				objDTO.getNome(),
-				objDTO.getDescricao(),
-				objDTO.getNroPaginas(),
-				editoraService.fromDTO(objDTO.getEditoraDTO()));
-		
-		// O comando abaixo seta os autores pro newObj a partir dos autoresDTO de objDTO
-		newObj.setAutores(objDTO.getAutoresDTO().stream().map(obj -> new Autor(obj.getId(),obj.getNome())).collect(Collectors.toList()));
-		
-		return newObj;
-		
 	}
 	
 	public Livro update (Livro obj) {
@@ -82,4 +68,33 @@ public class LivroService {
 		}
 	}
 	
+	public void delete(Integer id) {
+		// Metodo que deleta uma Livro
+		this.find(id);
+		
+		try 
+		{			
+			repo.deleteById(id);
+		}
+		
+		catch (DataIntegrityViolationException e)
+		{
+			throw new DataIntegrityException("Erro ao excluir livro!");
+		}		
+	}
+	
+	public Livro fromDTO(LivroDTO objDTO) {
+		// Metodo auxiliar que instancia um objeto do tipo Livro a partir de um objeto do tipo LivroDTO
+		Livro newObj = new Livro(objDTO.getId(),
+				objDTO.getNome(),
+				objDTO.getDescricao(),
+				objDTO.getNroPaginas(),
+				editoraService.fromDTO(objDTO.getEditoraDTO()));
+		
+		// O comando abaixo seta os autores pro newObj a partir dos autoresDTO de objDTO
+		newObj.setAutores(objDTO.getAutoresDTO().stream().map(obj -> new Autor(obj.getId(),obj.getNome())).collect(Collectors.toList()));
+		
+		return newObj;
+		
+	}
 }

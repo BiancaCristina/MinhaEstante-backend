@@ -63,4 +63,12 @@ public class LivroResource {
 		
 		return ResponseEntity.noContent().build();
 	}
+	
+	@RequestMapping(value="/{id}",method= RequestMethod.DELETE) 
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
+		// Metodo que deleta uma Livro
+		service.delete(id);		
+		
+		return ResponseEntity.noContent().build();
+	}
 }
