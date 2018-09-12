@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import br.ufu.facom.bianca.domain.Autor;
 import br.ufu.facom.bianca.domain.Categoria;
+import br.ufu.facom.bianca.domain.Editora;
 import br.ufu.facom.bianca.domain.Livro;
 import br.ufu.facom.bianca.dto.LivroDTO;
 import br.ufu.facom.bianca.repositories.LivroRepository;
@@ -67,6 +68,18 @@ public class LivroService {
 		newObj.setNome(obj.getNome());
 		newObj.setDescricao(obj.getDescricao());
 		newObj.setNroPaginas(obj.getNroPaginas());
-		newObj.setEditora(obj.getEditora());
+		
+		Integer id = obj.getEditora().getId(); // Pega o ID da editora
+		
+		editoraService.find(id); // Verifica se a editora existe
+		
+		if (id == null) {
+			throw new ObjectNotFoundException("Editora nao encontrada! Id: " + id + ", Tipo: " + Editora.class.getName());
+		}
+		
+		else {
+			newObj.setEditora(obj.getEditora()); 
+		}
 	}
+	
 }
