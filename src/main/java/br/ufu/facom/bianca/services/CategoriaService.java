@@ -79,6 +79,11 @@ public class CategoriaService {
 		return repo.findAll(pageRequest);
 	}
 	
+	public List<Categoria> findByNome(String nome){
+		// Esse metodo encontra as editoras que possuam esse nome
+		return repo.findByNomeContainingIgnoreCase(nome);
+	}
+	
 	public Categoria fromDTO(CategoriaDTO objDTO) {
 		// Metodo auxiliar que instancia um objeto do tipo Categoria a partir de um objeto do tipo CategoriaDTO
 		return new Categoria(objDTO.getId(),objDTO.getNome());

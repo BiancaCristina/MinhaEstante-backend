@@ -19,6 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.ufu.facom.bianca.domain.Categoria;
 import br.ufu.facom.bianca.dto.CategoriaDTO;
+import br.ufu.facom.bianca.resources.utils.URL;
 import br.ufu.facom.bianca.services.CategoriaService;
 
 @RestController
@@ -89,6 +90,17 @@ public class CategoriaResource {
 		// O codigo abaixo converte cada objeto da lista de Categoria em um objeto de CategoriaDTO e forma uma lista de CategoriaDTO
 		// CategoriaDTO mostrara apenas os dados que me interessam quando estou imprimindo a lista de Categorias(id,nome)
 		Page<CategoriaDTO> listDTO = list.map(obj -> new CategoriaDTO(obj));
+		return ResponseEntity.ok().body(listDTO);
+	}
+	
+	@RequestMapping(value="/nomesearch", method=RequestMethod.GET)
+	public ResponseEntity<List<CategoriaDTO>> findByNome(@RequestParam(value="nome", defaultValue="") String nome) {
+		// Esse metodo acha todas as editoras que contenham algo dessa string nome
+		nome = URL.decodeParam(nome);
+		
+		List<Categoria> list = service.findByNome(nome);
+		List<CategoriaDTO> listDTO = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+		
 		return ResponseEntity.ok().body(listDTO);
 	}
 
