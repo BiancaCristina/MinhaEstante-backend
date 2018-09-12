@@ -1,6 +1,7 @@
 package br.ufu.facom.bianca.resources;
 
 import java.net.URI;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -11,12 +12,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.ufu.facom.bianca.domain.Livro;
 import br.ufu.facom.bianca.dto.AutorDTO;
 import br.ufu.facom.bianca.dto.LivroDTO;
+import br.ufu.facom.bianca.resources.utils.URL;
 import br.ufu.facom.bianca.services.LivroService;
 
 @RestController
@@ -70,5 +73,16 @@ public class LivroResource {
 		service.delete(id);		
 		
 		return ResponseEntity.noContent().build();
+	}
+	
+	@RequestMapping(value="/nomesearch", method=RequestMethod.GET)
+	public ResponseEntity<List<LivroDTO>> findByNome(@RequestParam(value="nome", defaultValue="") String nome) {
+		// Esse metodo acha todas as editoras que contenham algo dessa string nome
+		nome = URL.decodeParam(nome);
+		
+		List<Livro> list = service.findByNome(nome);
+		List<LivroDTO> listDTO = list.stream().map(obj -> new LivroDTO(obj)).collect(Collectors.toList());
+		
+		return ResponseEntity.ok().body(listDTO);
 	}
 }

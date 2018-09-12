@@ -1,5 +1,6 @@
 package br.ufu.facom.bianca.services;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -81,6 +82,11 @@ public class LivroService {
 		{
 			throw new DataIntegrityException("Erro ao excluir livro!");
 		}		
+	}
+	
+	public List<Livro> findByNome(String nome){
+		// Esse metodo encontra as editoras que possuam esse nome
+		return repo.findByNomeContainingIgnoreCase(nome);
 	}
 	
 	public Livro fromDTO(LivroDTO objDTO) {
