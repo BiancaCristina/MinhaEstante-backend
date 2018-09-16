@@ -17,7 +17,7 @@ public class LeitorService {
 	@Autowired
 	private LeitorRepository repo;
 	
-	public Leitor findById (Integer id) {
+	public Leitor find(Integer id) {
 		// Esse metodo busca uma categoria a partir de seu ID
 		
 		Optional<Leitor> obj = repo.findById(id);
@@ -32,6 +32,26 @@ public class LeitorService {
 		obj.setId(null);
 
 		return repo.save(obj);
+	}
+	
+	public Leitor update (Leitor obj) {
+		// Metodo que atualiza a categoria
+		
+		Leitor newObj = this.find(obj.getId()); // Procura o obj do parametro pelo ID e faz "newObj" recebe-lo (caso exista)
+		System.out.println("A SENHA DESSA BOMBA EH ESSA ======= " + obj.getSenha());
+		System.out.println("A SENHA DESSA BOMBA EH ESSA ======= " + obj.getSenha());
+		System.out.println("A SENHA DESSA BOMBA EH ESSA ======= " + obj.getSenha());
+		System.out.println("A SENHA DESSA BOMBA EH ESSA ======= " + obj.getSenha());
+		this.updateData(newObj,obj); // Salva os dados de newObj de acordo com os dados previos de obj
+		return repo.save(newObj);
+	}
+	
+	private void updateData(Leitor newObj,Leitor obj) {
+		// Metodo exclusivo de LeitorService que vai atualizar o nome da Leitor
+		// Atualiza nome, email e senha
+		newObj.setNome(obj.getNome());
+		newObj.setEmail(obj.getEmail());
+		newObj.setSenha(obj.getSenha());
 	}
 	
 	public Leitor fromDTO(LeitorDTO objDTO) {

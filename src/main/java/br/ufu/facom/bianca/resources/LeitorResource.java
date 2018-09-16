@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.ufu.facom.bianca.domain.Leitor;
+import br.ufu.facom.bianca.dto.LeitorDTO;
 import br.ufu.facom.bianca.dto.LeitorNewDTO;
 import br.ufu.facom.bianca.services.LeitorService;
 
@@ -30,7 +31,7 @@ public class LeitorResource {
 		// O "?" eh porque a resposta pode ser bem sucedida ou nao
 		// ResponseEntity = armazena infos da resposta HTTP para o servico REST
 
-		Leitor obj = service.findById(id);
+		Leitor obj = service.find(id);
 		return ResponseEntity.ok().body(obj); // Retorna uma resposta OK e o objeto como corpo
 	}
 	
@@ -42,5 +43,17 @@ public class LeitorResource {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		
 		return ResponseEntity.created(uri).build();		
+	}
+	
+	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
+	public ResponseEntity<Void> update(@RequestBody @Valid LeitorDTO objDTO, @PathVariable Integer id) {
+		// Metodo que atualiza a Leitor
+		
+		Leitor obj = service.fromDTO(objDTO);
+		
+		obj.setId(id); // Comando feito pra garantir que o objeto que eu to passando tenha ID que eu quero atualizar
+		obj = service.update(obj);
+		
+		return ResponseEntity.noContent().build();
 	}
 }
