@@ -56,4 +56,12 @@ public class LeitorResource {
 		
 		return ResponseEntity.noContent().build();
 	}
+	
+	@RequestMapping(value="/{id}",method= RequestMethod.DELETE) 
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
+		// Metodo que deleta uma Leitor
+		service.delete(id);		
+		
+		return ResponseEntity.noContent().build();
+	}
 }

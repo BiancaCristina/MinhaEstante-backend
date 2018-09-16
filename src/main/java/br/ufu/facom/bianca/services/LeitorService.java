@@ -3,6 +3,7 @@ package br.ufu.facom.bianca.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import br.ufu.facom.bianca.domain.Leitor;
@@ -10,6 +11,7 @@ import br.ufu.facom.bianca.dto.LeitorDTO;
 import br.ufu.facom.bianca.dto.LeitorNewDTO;
 import br.ufu.facom.bianca.repositories.LeitorRepository;
 import br.ufu.facom.bianca.resources.exceptions.ObjectNotFoundException;
+import br.ufu.facom.bianca.services.exceptions.DataIntegrityException;
 
 @Service
 public class LeitorService {
@@ -38,10 +40,6 @@ public class LeitorService {
 		// Metodo que atualiza a categoria
 		
 		Leitor newObj = this.find(obj.getId()); // Procura o obj do parametro pelo ID e faz "newObj" recebe-lo (caso exista)
-		System.out.println("A SENHA DESSA BOMBA EH ESSA ======= " + obj.getSenha());
-		System.out.println("A SENHA DESSA BOMBA EH ESSA ======= " + obj.getSenha());
-		System.out.println("A SENHA DESSA BOMBA EH ESSA ======= " + obj.getSenha());
-		System.out.println("A SENHA DESSA BOMBA EH ESSA ======= " + obj.getSenha());
 		this.updateData(newObj,obj); // Salva os dados de newObj de acordo com os dados previos de obj
 		return repo.save(newObj);
 	}
@@ -51,7 +49,21 @@ public class LeitorService {
 		// Atualiza nome, email e senha
 		newObj.setNome(obj.getNome());
 		newObj.setEmail(obj.getEmail());
-		newObj.setSenha(obj.getSenha());
+	}
+	
+	public void delete(Integer id) {
+		// Metodo que deleta uma Leitor
+		this.find(id);
+		
+		try 
+		{			
+			repo.deleteById(id);
+		}
+		
+		catch (DataIntegrityViolationException e)
+		{
+			throw new DataIntegrityException("Não é possível excluir um leitor com livros/editoras/autores associados.");
+		}		
 	}
 	
 	public Leitor fromDTO(LeitorDTO objDTO) {
