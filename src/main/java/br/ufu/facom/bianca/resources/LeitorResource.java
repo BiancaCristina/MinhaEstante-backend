@@ -5,11 +5,13 @@ import java.net.URI;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -63,5 +65,21 @@ public class LeitorResource {
 		service.delete(id);		
 		
 		return ResponseEntity.noContent().build();
+	}
+	
+	@RequestMapping(value="/page",method= RequestMethod.GET)
+	public ResponseEntity<Page<LeitorDTO>> findPage(
+			@RequestParam(name="page",defaultValue="0") Integer page, 
+			@RequestParam(name="linesPerPage",defaultValue="24") Integer linesPerPage, 
+			@RequestParam(name="orderBy",defaultValue="nome") String orderBy, 
+			@RequestParam(name="direction",defaultValue="ASC") String direction) 
+	{	
+		// Esse metodo faz a paginacao quando retorna a lista de todas as categorias 
+		Page<Leitor> list = service.findPage(page,linesPerPage,orderBy,direction);
+		
+		// O codigo abaixo converte cada objeto da lista de Leitor em um objeto de LeitorDTO e forma uma lista de LeitorDTO
+		// LeitorDTO mostrara apenas os dados que me interessam quando estou imprimindo a lista de Leitors(id,nome)
+		Page<LeitorDTO> listDTO = list.map(obj -> new LeitorDTO(obj));
+		return ResponseEntity.ok().body(listDTO);
 	}
 }

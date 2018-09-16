@@ -1,9 +1,13 @@
 package br.ufu.facom.bianca.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import br.ufu.facom.bianca.domain.Leitor;
@@ -64,6 +68,18 @@ public class LeitorService {
 		{
 			throw new DataIntegrityException("Não é possível excluir um leitor com livros/editoras/autores associados.");
 		}		
+	}
+	
+	public List<Leitor> findAll(){
+		// Esse metodo retorna todas as categorias
+		return repo.findAll();
+	}
+	
+	public Page<Leitor> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		// Esse metodo acha todas as categorias de forma paginada 
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction),orderBy);
+		
+		return repo.findAll(pageRequest);
 	}
 	
 	public Leitor fromDTO(LeitorDTO objDTO) {
