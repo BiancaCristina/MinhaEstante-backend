@@ -4,13 +4,21 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
 import br.ufu.facom.bianca.domain.Livro;
 
 public class LivroDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
+	
+	@NotEmpty(message= "Preenchimento obrigatório")
+	@Length(min=5,max=200,message="O tamanho deve estar entre 5 e 200 caracteres")
 	private String nome;
+	
 	private String descricao;
 	private Integer nroPaginas;
 	private EditoraDTO editoraDTO;
