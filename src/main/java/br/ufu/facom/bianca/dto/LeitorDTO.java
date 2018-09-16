@@ -2,6 +2,8 @@ package br.ufu.facom.bianca.dto;
 
 import java.io.Serializable;
 
+import br.ufu.facom.bianca.domain.Leitor;
+
 public class LeitorDTO  implements Serializable{
 	private static final long serialVersionUID = 1L;
 	// Leitor para transferencia de dados 
@@ -12,11 +14,11 @@ public class LeitorDTO  implements Serializable{
 	
 	public LeitorDTO() {}
 
-	public LeitorDTO(Integer id, String nome, String email) {
+	public LeitorDTO(Leitor obj) {
 		super();
-		this.id = id;
-		this.nome = nome;
-		this.email = email;
+		this.id = obj.getId();
+		this.nome = obj.getNome();
+		this.email = obj.getEmail();
 	}
 
 	public Integer getId() {
