@@ -1,12 +1,12 @@
 package br.ufu.facom.bianca.resources;
 
 import java.net.URI;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -75,13 +75,18 @@ public class LivroResource {
 		return ResponseEntity.noContent().build();
 	}
 	
-	@RequestMapping(value="/nomesearch", method=RequestMethod.GET)
-	public ResponseEntity<List<LivroDTO>> findByNome(@RequestParam(value="nome", defaultValue="") String nome) {
-		// Esse metodo acha todas as editoras que contenham algo dessa string nome
+	@RequestMapping(value="/page/nomesearch", method=RequestMethod.GET)
+	public ResponseEntity<Page<LivroDTO>> findByNome(
+			@RequestParam(value="nome", defaultValue="") String nome,
+			@RequestParam(name="page",defaultValue="0") Integer page, 
+			@RequestParam(name="linesPerPage",defaultValue="15") Integer linesPerPage, 
+			@RequestParam(name="orderBy",defaultValue="nome") String orderBy, 
+			@RequestParam(name="direction",defaultValue="ASC") String direction) {
+		// Esse metodo acha todos os objetos do tipo Livro que contenham algo da string nome
 		nome = URL.decodeParam(nome);
 		
-		List<Livro> list = service.findByNome(nome);
-		List<LivroDTO> listDTO = list.stream().map(obj -> new LivroDTO(obj)).collect(Collectors.toList());
+		Page<Livro> list = service.findPageByNome(nome, page, linesPerPage, orderBy,direction);
+		Page<LivroDTO> listDTO = list.map(obj -> new LivroDTO(obj));
 		
 		return ResponseEntity.ok().body(listDTO);
 	}

@@ -6,6 +6,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -84,6 +87,13 @@ public class LivroService {
 		{
 			throw new DataIntegrityException("Erro ao excluir livro!");
 		}		
+	}
+	
+	public Page<Livro> findPageByNome(String nome, Integer page, Integer linesPerPage, String orderBy, String direction){
+		// Esse metodo faz a busca por nome de forma paginada
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction),orderBy);
+		
+		return repo.findByNomeContainingIgnoreCase(nome,pageRequest);
 	}
 	
 	public List<Livro> findByNome(String nome){
