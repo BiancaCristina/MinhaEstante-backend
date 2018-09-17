@@ -88,10 +88,10 @@ public class LeitorResource {
 	public ResponseEntity<Page<LeitorDTO>> findByNome(
 			@RequestParam(value="nome", defaultValue="") String nome,
 			@RequestParam(name="page",defaultValue="0") Integer page, 
-			@RequestParam(name="linesPerPage",defaultValue="24") Integer linesPerPage, 
+			@RequestParam(name="linesPerPage",defaultValue="15") Integer linesPerPage, 
 			@RequestParam(name="orderBy",defaultValue="nome") String orderBy, 
 			@RequestParam(name="direction",defaultValue="ASC") String direction) {
-		// Esse metodo acha todas as editoras que contenham algo dessa string nome
+		// Esse metodo acha todos os objetos do tipo Leitor que contenham algo da string nome
 		nome = URL.decodeParam(nome);
 		
 		Page<Leitor> list = service.findPageByNome(nome, page, linesPerPage, orderBy,direction);

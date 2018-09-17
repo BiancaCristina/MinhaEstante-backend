@@ -1,8 +1,6 @@
 package br.ufu.facom.bianca.resources;
 
 import java.net.URI;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -85,13 +83,19 @@ public class AutorResource {
 		return ResponseEntity.ok().body(listDTO);
 	}
 	
-	@RequestMapping(value="/nomesearch", method=RequestMethod.GET)
-	public ResponseEntity<List<AutorDTO>> findByNome(@RequestParam(value="nome", defaultValue="") String nome) {
+	@RequestMapping(value="/page/nomesearch", method=RequestMethod.GET)
+	public ResponseEntity<Page<AutorDTO>> findByNome(
+			@RequestParam(value="nome", defaultValue="") String nome,
+			@RequestParam(name="page",defaultValue="0") Integer page, 
+			@RequestParam(name="linesPerPage",defaultValue="15") Integer linesPerPage, 
+			@RequestParam(name="orderBy",defaultValue="nome") String orderBy, 
+			@RequestParam(name="direction",defaultValue="ASC") String direction) {
+		// Esse metodo acha todos os objetos do tipo Autor que contenham algo da string nome
 		nome = URL.decodeParam(nome);
 		
-		List<Autor> list = service.findByNome(nome);
-		List<AutorDTO> listDTO = list.stream().map(obj -> new AutorDTO(obj)).collect(Collectors.toList());
+		Page<Autor> list = service.findPageByNome(nome, page, linesPerPage, orderBy,direction);
+		Page<AutorDTO> listDTO = list.map(obj -> new AutorDTO(obj));
 		
-		return ResponseEntity.ok().body(listDTO);		
+		return ResponseEntity.ok().body(listDTO);
 	}
 }

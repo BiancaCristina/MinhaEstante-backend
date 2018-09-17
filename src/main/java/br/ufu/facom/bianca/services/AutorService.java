@@ -82,6 +82,13 @@ public class AutorService {
 		return repo.findAll(pageRequest);
 	}
 	
+	public Page<Autor> findPageByNome(String nome, Integer page, Integer linesPerPage, String orderBy, String direction){
+		// Esse metodo faz a busca por nome de forma paginada
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction),orderBy);
+		
+		return repo.findByNomeContainingIgnoreCase(nome,pageRequest);
+	}
+	
 	public List<Autor> findByNome(String nome){
 		return repo.findByNomeContainingIgnoreCase(nome); 
 	}
