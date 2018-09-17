@@ -84,6 +84,11 @@ public class LeitorService {
 		return repo.findAll(pageRequest);
 	}
 	
+	public List<Leitor> findByNome(String nome){
+		// Esse metodo encontra as editoras que possuam esse nome
+		return repo.findByNomeContainingIgnoreCase(nome);
+	}
+	
 	public Leitor fromDTO(LeitorDTO objDTO) {
 		// Metodo auxiliar que instancia um objeto do tipo Leitor a partir de um objeto do tipo LeitorDTO
 		return new Leitor(objDTO.getId(),objDTO.getNome(), objDTO.getEmail(),null);

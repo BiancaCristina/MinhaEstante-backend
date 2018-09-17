@@ -1,6 +1,8 @@
 package br.ufu.facom.bianca.resources;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -18,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import br.ufu.facom.bianca.domain.Leitor;
 import br.ufu.facom.bianca.dto.LeitorDTO;
 import br.ufu.facom.bianca.dto.LeitorNewDTO;
+import br.ufu.facom.bianca.resources.utils.URL;
 import br.ufu.facom.bianca.services.LeitorService;
 
 @RestController
@@ -80,6 +83,17 @@ public class LeitorResource {
 		// O codigo abaixo converte cada objeto da lista de Leitor em um objeto de LeitorDTO e forma uma lista de LeitorDTO
 		// LeitorDTO mostrara apenas os dados que me interessam quando estou imprimindo a lista de Leitors(id,nome)
 		Page<LeitorDTO> listDTO = list.map(obj -> new LeitorDTO(obj));
+		return ResponseEntity.ok().body(listDTO);
+	}
+	
+	@RequestMapping(value="/nomesearch", method=RequestMethod.GET)
+	public ResponseEntity<List<LeitorDTO>> findByNome(@RequestParam(value="nome", defaultValue="") String nome) {
+		// Esse metodo acha todas as editoras que contenham algo dessa string nome
+		nome = URL.decodeParam(nome);
+		
+		List<Leitor> list = service.findByNome(nome);
+		List<LeitorDTO> listDTO = list.stream().map(obj -> new LeitorDTO(obj)).collect(Collectors.toList());
+		
 		return ResponseEntity.ok().body(listDTO);
 	}
 }
