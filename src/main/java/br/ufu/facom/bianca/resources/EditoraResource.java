@@ -1,8 +1,6 @@
 package br.ufu.facom.bianca.resources;
 
 import java.net.URI;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -85,13 +83,18 @@ public class EditoraResource {
 		return ResponseEntity.ok().body(listDTO);
 	}
 	
-	@RequestMapping(value="/nomesearch", method=RequestMethod.GET)
-	public ResponseEntity<List<EditoraDTO>> findByNome(@RequestParam(value="nome", defaultValue="") String nome) {
-		// Esse metodo acha todas as editoras que contenham algo dessa string nome
+	@RequestMapping(value="/page/nomesearch", method=RequestMethod.GET)
+	public ResponseEntity<Page<EditoraDTO>> findByNome(
+			@RequestParam(value="nome", defaultValue="") String nome,
+			@RequestParam(name="page",defaultValue="0") Integer page, 
+			@RequestParam(name="linesPerPage",defaultValue="15") Integer linesPerPage, 
+			@RequestParam(name="orderBy",defaultValue="nome") String orderBy, 
+			@RequestParam(name="direction",defaultValue="ASC") String direction) {
+		// Esse metodo acha todos os objetos do tipo Editora que contenham algo da string nome
 		nome = URL.decodeParam(nome);
 		
-		List<Editora> list = service.findByNome(nome);
-		List<EditoraDTO> listDTO = list.stream().map(obj -> new EditoraDTO(obj)).collect(Collectors.toList());
+		Page<Editora> list = service.findPageByNome(nome, page, linesPerPage, orderBy,direction);
+		Page<EditoraDTO> listDTO = list.map(obj -> new EditoraDTO(obj));
 		
 		return ResponseEntity.ok().body(listDTO);
 	}

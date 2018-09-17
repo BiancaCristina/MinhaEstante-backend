@@ -82,6 +82,13 @@ public class EditoraService {
 		return repo.findAll(pageRequest);
 	}
 	
+	public Page<Editora> findPageByNome(String nome, Integer page, Integer linesPerPage, String orderBy, String direction){
+		// Esse metodo faz a busca por nome de forma paginada
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction),orderBy);
+		
+		return repo.findByNomeContainingIgnoreCase(nome,pageRequest);
+	}
+	
 	public List<Editora> findByNome(String nome){
 		// Esse metodo encontra as editoras que possuam esse nome
 		return repo.findByNomeContainingIgnoreCase(nome);
