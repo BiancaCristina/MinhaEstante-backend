@@ -7,6 +7,9 @@ import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
+import br.ufu.facom.bianca.services.validation.LeitorInsert;
+
+@LeitorInsert // Vem da classe "LeitorInsert"
 public class LeitorNewDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	// Leitor para insercao
