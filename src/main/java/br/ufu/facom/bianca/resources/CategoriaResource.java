@@ -93,15 +93,19 @@ public class CategoriaResource {
 		return ResponseEntity.ok().body(listDTO);
 	}
 	
-	@RequestMapping(value="/nomesearch", method=RequestMethod.GET)
-	public ResponseEntity<List<CategoriaDTO>> findByNome(@RequestParam(value="nome", defaultValue="") String nome) {
-		// Esse metodo acha todas as editoras que contenham algo dessa string nome
+	@RequestMapping(value="/page/nomesearch", method=RequestMethod.GET)
+	public ResponseEntity<Page<CategoriaDTO>> findByNome(
+			@RequestParam(value="nome", defaultValue="") String nome,
+			@RequestParam(name="page",defaultValue="0") Integer page, 
+			@RequestParam(name="linesPerPage",defaultValue="15") Integer linesPerPage, 
+			@RequestParam(name="orderBy",defaultValue="nome") String orderBy, 
+			@RequestParam(name="direction",defaultValue="ASC") String direction) {
+		// Esse metodo acha todos os objetos do tipo Categoria que contenham algo da string nome
 		nome = URL.decodeParam(nome);
 		
-		List<Categoria> list = service.findByNome(nome);
-		List<CategoriaDTO> listDTO = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+		Page<Categoria> list = service.findPageByNome(nome, page, linesPerPage, orderBy,direction);
+		Page<CategoriaDTO> listDTO = list.map(obj -> new CategoriaDTO(obj));
 		
 		return ResponseEntity.ok().body(listDTO);
 	}
-
 }
