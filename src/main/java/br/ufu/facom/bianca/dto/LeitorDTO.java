@@ -8,7 +8,9 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import br.ufu.facom.bianca.domain.Leitor;
+import br.ufu.facom.bianca.services.validation.LeitorUpdate;
 
+@LeitorUpdate
 public class LeitorDTO  implements Serializable{
 	private static final long serialVersionUID = 1L;
 	// Leitor para transferencia de dados 
