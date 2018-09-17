@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.ufu.facom.bianca.domain.Autor;
 import br.ufu.facom.bianca.dto.AutorDTO;
@@ -32,6 +33,7 @@ public class AutorService {
 				"Objeto nao encontrado! Id: " + id + ", Tipo: " + Autor.class.getName()));
 	}
 	
+	@Transactional
 	public Autor insert (Autor obj) {
 		// Metodo que insere uma nova Autor 
 		obj.setId(null);

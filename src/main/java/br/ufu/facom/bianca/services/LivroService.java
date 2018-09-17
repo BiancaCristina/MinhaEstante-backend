@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.ufu.facom.bianca.domain.Autor;
 import br.ufu.facom.bianca.domain.Editora;
@@ -33,6 +34,7 @@ public class LivroService {
 				"Objeto nao encontrado! Id: " + id + ", Tipo: " + Livro.class.getName()));
 	}
 	
+	@Transactional
 	public Livro insert (Livro obj) {
 		// Metodo que insere uma nova Livro 
 		obj.setId(null);

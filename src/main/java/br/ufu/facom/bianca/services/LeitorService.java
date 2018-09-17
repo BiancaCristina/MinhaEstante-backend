@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.ufu.facom.bianca.domain.Leitor;
 import br.ufu.facom.bianca.dto.LeitorDTO;
@@ -33,6 +34,7 @@ public class LeitorService {
 				"Objeto nao encontrado! Id: " + id + ", Tipo: " + Leitor.class.getName()));
 	}
 	
+	@Transactional
 	public Leitor insert (Leitor obj) {
 		// Metodo que insere uma nova Leitor 
 		obj.setId(null);

@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.ufu.facom.bianca.domain.Editora;
 import br.ufu.facom.bianca.dto.EditoraDTO;
@@ -32,6 +33,7 @@ public class EditoraService {
 				"Objeto nao encontrado! Id: " + id + ", Tipo: " + Editora.class.getName()));
 	}
 	
+	@Transactional
 	public Editora insert (Editora obj) {
 		// Metodo que insere uma nova Editora 
 		obj.setId(null);
