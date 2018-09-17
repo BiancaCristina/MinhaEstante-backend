@@ -3,6 +3,7 @@ package br.ufu.facom.bianca.dto;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -33,6 +34,9 @@ public class LivroDTO implements Serializable {
 		this.descricao = obj.getDescricao();
 		this.nroPaginas = obj.getNroPaginas();
 		this.editoraDTO = new EditoraDTO(obj.getEditora());
+		
+		// O comando abaixo converte de Autor para AutorDTO
+		this.autoresDTO = obj.getAutores().stream().map( objLambda -> new AutorDTO(objLambda)).collect(Collectors.toList()); 
 	}
 
 	public Integer getId() {

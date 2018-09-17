@@ -1,7 +1,6 @@
 package br.ufu.facom.bianca.resources;
 
 import java.net.URI;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.ufu.facom.bianca.domain.Livro;
-import br.ufu.facom.bianca.dto.AutorDTO;
 import br.ufu.facom.bianca.dto.LivroDTO;
 import br.ufu.facom.bianca.resources.utils.URL;
 import br.ufu.facom.bianca.services.LivroService;
@@ -38,9 +36,6 @@ public class LivroResource {
 		Livro obj = service.find(id); // Acha um obj do tipo Livro
 		
 		LivroDTO newObj = new LivroDTO(obj); // Instancia um LivroDTO a partir de Livro
-		
-		// O comando abaixo seta os autores de newObj a partir dos autores de obj
-		newObj.setAutoresDTO(obj.getAutores().stream().map(objLambda-> new AutorDTO(objLambda)).collect(Collectors.toList()));
 		
 		return ResponseEntity.ok().body(newObj); 
 	}
