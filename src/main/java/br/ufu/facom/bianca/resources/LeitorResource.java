@@ -1,8 +1,6 @@
 package br.ufu.facom.bianca.resources;
 
 import java.net.URI;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -86,13 +84,18 @@ public class LeitorResource {
 		return ResponseEntity.ok().body(listDTO);
 	}
 	
-	@RequestMapping(value="/nomesearch", method=RequestMethod.GET)
-	public ResponseEntity<List<LeitorDTO>> findByNome(@RequestParam(value="nome", defaultValue="") String nome) {
+	@RequestMapping(value="/page/nomesearch", method=RequestMethod.GET)
+	public ResponseEntity<Page<LeitorDTO>> findByNome(
+			@RequestParam(value="nome", defaultValue="") String nome,
+			@RequestParam(name="page",defaultValue="0") Integer page, 
+			@RequestParam(name="linesPerPage",defaultValue="24") Integer linesPerPage, 
+			@RequestParam(name="orderBy",defaultValue="nome") String orderBy, 
+			@RequestParam(name="direction",defaultValue="ASC") String direction) {
 		// Esse metodo acha todas as editoras que contenham algo dessa string nome
 		nome = URL.decodeParam(nome);
 		
-		List<Leitor> list = service.findByNome(nome);
-		List<LeitorDTO> listDTO = list.stream().map(obj -> new LeitorDTO(obj)).collect(Collectors.toList());
+		Page<Leitor> list = service.findPageByNome(nome, page, linesPerPage, orderBy,direction);
+		Page<LeitorDTO> listDTO = list.map(obj -> new LeitorDTO(obj));
 		
 		return ResponseEntity.ok().body(listDTO);
 	}
