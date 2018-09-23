@@ -38,7 +38,7 @@ public class LivroResource {
 		LivroDTO newObj = new LivroDTO(obj); // Instancia um LivroDTO a partir de Livro
 		
 		return ResponseEntity.ok().body(newObj); 
-	}
+	}	
 	
 	@RequestMapping(method=RequestMethod.POST) 
 	public ResponseEntity<Void> insert(@Valid @RequestBody LivroDTO objDTO) {
